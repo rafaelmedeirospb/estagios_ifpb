@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:event type="preRenderView" listener="#{homeBean.listarVagas}"></f:event>
+</f:metadata>
+
+<ui:composition template="templates/base.xhtml">
+	<ui:define name="header-title">Estágios disponíveis</ui:define>
+
+	<ui:define name="content">
+		<div class="row">
+			<ui:repeat var="vaga" value="#{homeBean.vagas}">
+				<div class="col-md-6">
+					<h:link outcome="/view/vaga/detalhes.jsf?id=#{vaga.id}" >
+						<div class="col-md-12 vaga">
+<!-- 							<div class="col-md-3">
+								<div class="company-image">
+									<h3>#{vaga.empresa.nome}</h3>
+								</div>
+							</div> -->
+							<div class="col-md-12">
+								<h4 class="title">#{vaga.titulo}
+								<small class="date">
+									<h:outputText value="#{vaga.dataDivulgacaoInicio}">
+										<f:convertDateTime dateStyle="medium" />
+									</h:outputText>
+								</small>
+								</h4>
+								<h5 class="company">
+									<span class="glyphicon glyphicon-briefcase"></span>
+									#{vaga.empresa.nome}
+								</h5>
+								<h5 class="location">
+									<span class="glyphicon glyphicon-map-marker"></span> #{vaga.empresa.cidade}
+								</h5>
+								
+								<p class="description">
+									<h:outputText value="#{vaga.descricao.length() gt 150 ? vaga.descricao.substring(0,147).concat('...') : vaga.descricao}" />
+								</p>
+							</div>
+						</div>
+					</h:link>
+				</div>
+			</ui:repeat>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<f:metadata>
+	<f:event listener="#{empresaBean.unloadFlash()}" type="preRenderView"></f:event>
+	<f:event listener="#{empresaBean.loadAlunos()}" type="preRenderView"></f:event>
+</f:metadata>
+
+<h:body>
+
+<ui:composition template="/view/templates/base.xhtml">
+	<ui:define name="header-title">Alunos Candidatos</ui:define>
+		<ui:define name="content">
+		
+		<f:facet name="header">Vaga #{empresaBean.vaga.titulo}</f:facet>
+		
+		<ui:fragment rendered="#{empty empresaBean.vaga.alunos}">
+  				<h3>Esta vaga não possui alunos candidatos.</h3>
+		</ui:fragment>
+					
+		<h:form>
+		<h:dataTable var="aluno" value="#{empresaBean.vaga.alunos}"	rendered="#{not empty empresaBean.vaga.alunos}"
+					styleClass="table table-striped table-hover" id="tabela_vagas">
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+				<h:link value="#{aluno.nome}" outcome="/view/aluno/perfil.xhtml?id=#{aluno.id}"/>
+			</h:column>
+			<h:column>
+			<f:facet name="header">Matricula</f:facet>
+						#{aluno.matricula}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Contato</f:facet>
+						#{aluno.email}
+			</h:column>
+			<h:column>
+			<f:facet name="header">Competências</f:facet>
+						#{aluno.competencias}
+			</h:column>
+			<h:column>
+				<h:commandButton class="btn btn-primary" value="Admitir" action="#{empresaBean.admitir(aluno)}" rendered="#{not aluno.admitido}"/>
+				<h:commandButton class="btn btn-default" value="Já admitido" disabled="true" rendered="#{aluno.admitido}"/>
+			</h:column>
+
+		</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</h:body>
+
+</html>
